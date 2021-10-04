@@ -91,6 +91,18 @@
 	select{
 		height: 14pt;
 	}
+	
+	#pannel>*{
+	    border-radius: 3px;
+	}
+	
+	#repo-link{
+		font-family: monospace;
+		color: gray !important;
+		display: block;
+		text-align: center;
+		text-decoration: none;
+	}
 	</style>
 
 </head>
@@ -107,8 +119,10 @@
 	</div>
 	<textarea id="output" class="" placeholder="Output" wrap="soft" readonly=""></textarea>
 	<textarea id="console" class="" placeholder="Console" readonly=""></textarea>
-</div>
+	
+	<a id="repo-link" href="https://github.com/kingofnull/SSR-URL-to-config">Source code on github</a>
 
+</div>
 
 
 <script src="SSExtract.js"></script>
