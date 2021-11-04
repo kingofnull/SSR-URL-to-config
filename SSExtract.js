@@ -111,7 +111,7 @@ function parseURI(uri,parseParams=false){
 		.forEach(ssrText=>{
 			ssrText=base64Decode(ssrText);
 			//echo "ssrText\n";
-			let mSSR=ssrText.match(/(?<server>[^:]+):(?<port>\d+):(?<protocol>[^:]+):(?<cipher>[^:]+):(?<obfs>[^:]+):(?<password>[^:]+)\//i);
+			let mSSR=ssrText.match(/(?<server>[^:]+):(?<port>\d+):(?<protocol>[^:]+):(?<cipher>[^:]+):(?<obfs>[^:]+):(?<password>[^:]+)\/?/i);
 			if(mSSR){
 				if(mSSR.groups['password']){
 					mSSR.groups['password']=base64Decode(mSSR.groups['password']);
@@ -170,12 +170,12 @@ function extractSsAndSsr(text){
 			}
 			
 			if(!isObfsSupported(data['obfs'])){
-				consoleLog("skip due to not supported obfs!");
+				consoleLog("skip due to unsupported obfs!");
 				continue;
 			}
 			
 			if(!isCypherSupported(data['cipher'])){
-				consoleLog("Warining: skip due to not supported cipher of "+data['cipher']);
+				consoleLog("Warining: skip due to unsupported cipher of "+data['cipher']);
 				continue;
 			}
 		}
