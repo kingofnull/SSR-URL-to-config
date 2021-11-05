@@ -20,7 +20,15 @@ function isCypherSupported(cypher){
 }
 
 function base64Decode(str){
-	return atob(str);
+	let r="";
+	try{
+		r=atob(str);
+	}catch(e){
+		consoleLog("Error: Fail to decode base64 string of `"+str+"` , Error: "+e.message);
+	}
+	
+	
+	return r;
 }
 
 function jsonDecode(str){
