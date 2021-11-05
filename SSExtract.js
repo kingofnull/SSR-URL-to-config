@@ -111,7 +111,7 @@ function parseURI(uri,parseParams=false){
 		.forEach(ssrText=>{
 			ssrText=base64Decode(ssrText);
 			//echo "ssrText\n";
-			let mSSR=ssrText.match(/(?<server>[^:]+):(?<port>\d+):(?<protocol>[^:]+):(?<cipher>[^:]+):(?<obfs>[^:]+):(?<password>[^:]+)\/?/i);
+			let mSSR=ssrText.match(/(?<server>[^:]+):(?<port>\d+):(?<protocol>[^:]+):(?<cipher>[^:]+):(?<obfs>[^:]+):(?<password>[^\/:]+)\/?/i);
 			if(mSSR){
 				if(mSSR.groups['password']){
 					mSSR.groups['password']=base64Decode(mSSR.groups['password']);
