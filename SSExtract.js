@@ -68,7 +68,7 @@ function parseURI(uri,parseParams=false){
 	
 	let s=m.groups;
 	
-	if(!s['server']){
+	if(s['server']){
 		data['server']=s['server'];
 		data['port']=s['port'];
 	}
@@ -98,7 +98,7 @@ function parseURI(uri,parseParams=false){
 		let ssText=base64Decode(s['data']);
 		//var_dump(ssText);
 		let ssRegex=/^(?<cipher>[^:]+):(?<password>[^:@]+)@(?<server>[^:]+):(?<port>\d+)$/i;
-		if(!s['server']){
+		if(s['server']){
 			ssRegex=/^(?<cipher>[^:]+):(?<password>[^:@]+)$/i;
 		}
 		
