@@ -99,7 +99,7 @@ function parseURI(uri,parseParams=false){
 		//var_dump(ssText);
 		let ssRegex=/^(?<cipher>[^:]+):(?<password>[^:@]+)@(?<server>[^:]+):(?<port>\d+)$/i;
 		if(s['server']){
-			ssRegex=/^(?<cipher>[^:]+):(?<password>[^:@]+)$/i;
+			ssRegex=/^(?<cipher>[^:]+):(?<password>[^:]+)$/i;
 		}
 		
 		let mSS=ssText.match(ssRegex)
