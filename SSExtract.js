@@ -58,7 +58,7 @@ function consoleClear(){
 
 function parseURI(uri,parseParams=false){
 
-	let m=uri.match(/(?<type>(ssr?)|vmess):\/\/(?<data>[a-z\d\=\_]+)(@(?<server>[^:]+):(?<port>\d+))?(\#(?<remark>.+))?/i)
+	let m=uri.match(/(?<type>(ssr?)|vmess):\/\/(?<data>[a-z\d\=\_\+\/]+)(@(?<server>[^:]+):(?<port>\d+))?(\#(?<remark>.+))?/i)
 	
 	if(!m){
 		return null;
@@ -80,7 +80,7 @@ function parseURI(uri,parseParams=false){
 		
 		let vmessData=jsonDecode(vmessText);
 		
-		data.push({
+		data=Object.assign(data,{
 			"server":vmessData.add ,
 			"servername":vmessData.host ,
 			"port":vmessData.port ,
@@ -188,9 +188,38 @@ function extractSsAndSsr(text){
 			}
 		}
 		
-		proxyList.push(data);
+		data.name=data['type']+"_"+proxyList.length;
+		if(proxyList.findIndex(v2=>(v2.server===data.server))==-1){
+			proxyList.push(data);
+		}
 	}
 	
+	return proxyList;
+}
+
+function extractTls(text){
+
+	let matchesIt=text.matchAll(/HTTPS\s+(?<server>[\w\.\-]+)\:(?<port>\d+)/ig);
+	
+	let proxyList=[];
+	
+	for(let m of matchesIt){
+		
+		let data=m.groups;
+		
+		if(!data){
+			continue;
+		}
+		
+		data.name="TLS_"+proxyList.length;
+		data.type="http";
+		data.tls=true;
+		if(proxyList.findIndex(v2=>(v2.server===data.server))==-1){
+			proxyList.push(data);
+		}
+		
+	}
+		
 	return proxyList;
 }
 
@@ -208,6 +237,19 @@ function serializeForClacsh(proxyList){
 		
 		
 	}
+	
+	ymlClashDump+="\nproxies-names:\n";
+	for(let p of proxyList){
+		try{
+			ymlClashDump+="  - "+p.name+"\n";
+		}catch(e){
+			consoleLog(`skiping due to encode error: ${e.getMessage()}`);
+			//throw $e;
+		}
+		
+		
+	}
+	
 	return ymlClashDump;
 }
 
@@ -215,6 +257,7 @@ function doConvert(){
 	consoleClear();
 	let rawInput=document.querySelector("#input").value;
 	let proxies=extractSsAndSsr(rawInput,true);
+	proxies=proxies.concat(extractTls(rawInput));
 	if(proxies.length<1){
 		consoleLog("Error: No entry found. Exiting...");
 		return;
