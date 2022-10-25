@@ -75,22 +75,33 @@ function parseURI(uri,parseParams=false){
 	
 	data['type']=s['type'].toLowerCase();
 	
+	//{"add":"arvancloud.com","aid":"0","host":"mahsaproxy.com","id":"b831381d-6324-4d53-ad4f-8cda48b30811","net":"ws","path":"/graphql","port":"80","ps":"@DARK_SHADOWSOCKS","scy":"auto","sni":"","tls":"","type":"","v":"2"}
+	//  - {"type":"vmess","name":"@DARK_SHADOWSOCKS","ws-opts":{"path":"/graphql","headers":{"host":"mahsaproxy.com"}},"server":"arvancloud.com","port":"80","uuid":"b831381d-6324-4d53-ad4f-8cda48b30811","alterId":"0","cipher":"auto","network":"ws"}
+
+	
 	if(s['type']=="vmess"){
 		let vmessText=base64Decode(s['data']);
 		
 		let vmessData=jsonDecode(vmessText);
+		if(vmessData.v==2){
+			data=Object.assign(data,{
+				"server":vmessData.add ,
+				"port":vmessData.port ,
+				"uuid":vmessData.id ,
+				"alterId":vmessData.aid ,
+				"cipher": "auto" ,
+				"network":  vmessData.net,
+				"ws-opts":{
+					"path":  vmessData.path,
+				},
+				
+				"tls":  vmessData.tls=="tls",
+			});
+			if(vmessData.host){
+				data["ws-opts"]["host"]=vmessData.host;
+			}
+		}
 		
-		data=Object.assign(data,{
-			"server":vmessData.add ,
-			"servername":vmessData.host ,
-			"port":vmessData.port ,
-			"uuid":vmessData.id ,
-			"alterId":vmessData.aid ,
-			"cipher": "auto" ,
-			"network":  vmessData.net,
-			"ws-path":  vmessData.path,
-			"tls":  vmessData.tls=="tls",
-		});
 	} 
 	
 	
