@@ -83,7 +83,8 @@ function parseURI2ClashData(uri,parseParams=false){
 		let vmessText=base64Decode(s['data']);
 		
 		let vmessData=jsonDecode(vmessText);
-		if(vmessData.v==2){
+		//if(vmessData.v==2)
+        {
 			data=Object.assign(data,{
 				"server":vmessData.add ,
 				"port":vmessData.port ,
@@ -96,7 +97,7 @@ function parseURI2ClashData(uri,parseParams=false){
 			});
             
             
-            if(data["network"]=="ws"){
+            if(vmessData["net"]=="ws"){
                 
                 data["ws-opts"]={};
                 if(vmessData.path){
@@ -114,7 +115,7 @@ function parseURI2ClashData(uri,parseParams=false){
                 }
             }            
                         
-            if(data["network"]=="h2"){
+            if(vmessData["net"]=="h2"){
                 
                 data["h2-opts"]={};
                 if(vmessData.path){
@@ -129,8 +130,8 @@ function parseURI2ClashData(uri,parseParams=false){
                     delete data["h2-opts"];
                 }
             }
-              
-            if(data["type"]=="http"){
+
+            if(vmessData["type"]=="http"){
                 data["network"]="http"
                 data["http-opts"]={};
                 
@@ -150,7 +151,7 @@ function parseURI2ClashData(uri,parseParams=false){
              
             }
    
-            if(data["network"]=="grpc"){
+            if(vmessData["net"]=="grpc"){
                 data["grpc-opts"]={
 					"grpc-service-name": vmessData.path ? vmessData.path : "",
                 };
