@@ -96,13 +96,13 @@
 	    border-radius: 3px;
 	}
 	
-	#repo-link{
-		font-family: monospace;
-		color: gray !important;
-		display: block;
-		text-align: center;
-		text-decoration: none;
-	}
+	#repo-link {
+        font-family: monospace;
+        color: gray !important;
+        text-decoration: none;
+        width: fit-content;
+        display: inline-block;
+    }
 	</style>
 
 </head>
@@ -111,20 +111,25 @@
 	<div id="page-title">Offline and open source URI to Clash config convertor</div>
 	<textarea id="input" class="" placeholder="Input"></textarea>
 	<div id="buttons">
-		<select id="conv-modes">
-			<option value="clash" selected="">Clash Config</option>
+		<select id="convertMode">
+			<option value="uri2clash" selected="">URI to Clash Config</option>
 		</select>
-		<button onclick="doConvert()">Convert</button>
+		<button onclick="doConvert(convertMode.value)">Convert</button>
 		
 	</div>
 	<textarea id="output" class="" placeholder="Output" wrap="soft" readonly=""></textarea>
 	<textarea id="console" class="" placeholder="Console" readonly=""></textarea>
 	
-	<a id="repo-link" href="https://github.com/kingofnull/SSR-URL-to-config">Source code on github</a>
+	<a id="repo-link" href="https://github.com/kingofnull/SSR-URL-to-config">
+        View source code on 
+        Github
+        <img height="24"  src="https://github.githubassets.com/favicons/favicon.svg" style="vertical-align: middle;opacity: 0.5;">
+    </a>
 
 </div>
 
 
+<script src="conversions.js"></script>
 <script src="SSExtract.js"></script>
 
 </body>
